@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+public class Solution {
+    public int[] kthSmallestPrimeFraction(int[] primes, int k) {
+        // List to store generated fractions
+        ArrayList<Double> fractionsList = new ArrayList<>();
+        
+        // Map to store fraction value to string representation mapping
+        HashMap<Double, String> fractionToStringMap = new HashMap<>();
+        
+        // Iterate through each pair of primes
+        for (int i = 0; i < primes.length; i++) {
+            for (int j = i + 1; j < primes.length; j++) {
+                // Generate fraction value
+                double fractionValue = (double) primes[i] / primes[j];
+                
+                // Store fraction value in list
+                fractionsList.add(fractionValue);
+                
+                // Store fraction value and its string representation in map
+                String fractionString = primes[i] + "/" + primes[j];
+                fractionToStringMap.put(fractionValue, fractionString);
+            }
+        }
+        
+        // Sort the list of fractions in ascending order
+        Collections.sort(fractionsList);
+        
+        // Get the kth smallest fraction
+        double kthSmallestFraction = fractionsList.get(k - 1);
+        
+        // Retrieve the numerator and denominator of the kth smallest fraction
+        String kthFractionString = fractionToStringMap.get(kthSmallestFraction);
+        String[] fractionParts = kthFractionString.split("/");
+        int numerator = Integer.parseInt(fractionParts[0]);
+        int denominator = Integer.parseInt(fractionParts[1]);
+        
+        // Return the kth smallest fraction as an array of integers
+        return new int[]{numerator, denominator};
+    }
+}
